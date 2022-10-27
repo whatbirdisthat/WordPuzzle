@@ -1,6 +1,9 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
 using WordPuzzle.Lib;
+using WordPuzzle.Lib.Load;
+using WordPuzzle.Lib.Query;
+using WordPuzzle.Lib.Repository;
 
 namespace WordPuzzle.Benchmarks;
 
@@ -9,8 +12,10 @@ namespace WordPuzzle.Benchmarks;
 [RankColumn]
 public class AnagramBenchmarksFind
 {
-    private readonly EnglishWords _theEnglishWords = new();
-    private readonly EnglishWordsParallel _theEnglishWordsParallel = new();
+    // private readonly EnglishWords _theEnglishWords = new();
+    private readonly WordModelRepository<LoopMethod, ProperSubset> _theEnglishWords = new();
+    private readonly WordModelRepository<LinqMethod, ProperSubset> _theEnglishWordsParallel = new();
+    // private readonly LinqMethodWordRespository _theEnglishWordsParallel = new();
 
     [Benchmark(Baseline = true, Description = "Baseline: 'moonamain'")]
     public void GetAnagrams9Letters_Baseline()

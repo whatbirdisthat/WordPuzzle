@@ -15,6 +15,10 @@
       <EmbeddedResource Include="english-words\en-basic">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </EmbeddedResource>
+      <None Remove="english-words\wordrepository-en" />
+      <EmbeddedResource Include="english-words\wordrepository-en">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
     </ItemGroup>
 
 </Project>

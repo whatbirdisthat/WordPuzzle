@@ -1,32 +1,38 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
-using WordPuzzle.Lib;
+using WordPuzzle.Lib.Load;
+using WordPuzzle.Lib.Query;
+using WordPuzzle.Lib.Repository;
 
 namespace WordPuzzle.Benchmarks;
 
 [MemoryDiagnoser]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [RankColumn]
+[SimpleJob(launchCount: 1, warmupCount: 1, targetCount: 1, invocationCount:1)]
 public class AnagramBenchmarksLoad
 {
-    [Benchmark(Baseline = true, Description = "Baseline: loading")]
-    public void LoadBaseline()
+    [Benchmark(Baseline = true, Description = "LoopMethod: loading")]
+    public void LoadLoopMethod()
     {
-        var _theEnglishWords = new EnglishWords();
+        var _theRepository = new WordModelRepository<LoopMethod, ProperSubset>();
     }
 
-    // [Benchmark(Description = "Immutable: loading")]
-    // public void LoadBaselineImmutable()
-    // {
-    //     var _theEnglishWordsImmutable = new EnglishWordsImmutable();
-    // }
-
-    /// <summary>
-    /// The fastest way of loading (so far) words into the dictionary.
-    /// </summary>
-    [Benchmark(Description = "Parallel: loading")]
-    public void LoadBaselineParallel()
+    [Benchmark(Description = "InlineMethod: loading")]
+    public void LoadInlineMethod()
     {
-        var _theEnglishWordsParallel = new EnglishWordsParallel();
+        var _theRepository = new WordModelRepository<InlineMethod, ProperSubset>();
+    }
+
+    [Benchmark(Description = "ImmutableMethod: loading")]
+    public void LoadImmutableMethod()
+    {
+        var _theRepository = new WordModelRepository<ImmutableMethod, ProperSubset>();
+    }
+
+    [Benchmark(Description = "LinqMethod: loading")]
+    public void LoadLinqMethod()
+    {
+        var _theRepository = new WordModelRepository<LinqMethod, ProperSubset>();
     }
 }

@@ -1,22 +1,13 @@
-﻿using System.Collections;
+﻿namespace WordPuzzle.Lib.Query;
 
-namespace WordPuzzle.Lib.Query;
-
-public class ProperSubset<T> where T:IDictionary<uint, List<WordModel>>
+public class ProperSubset
 {
-    private T Dictionary;
-
-    public ProperSubset(T dictionary)
-    {
-        Dictionary = dictionary;
-    }
-
-    public IEnumerable<string> Of(string word)
+    public IEnumerable<string> Of(string word, IDictionary<uint, List<WordModel>> fromWords)
     {
         var theWordKey = word.WordKey();
         var theWordLength = word.Length;
 
-        var matchingWordKeys = Dictionary
+        var matchingWordKeys = fromWords
             .Where(eachWordKey => eachWordKey.Key == theWordKey)
             .Select(wordKey => wordKey.Value)
             .Select(listOfWordModelLists =>
@@ -25,6 +16,5 @@ public class ProperSubset<T> where T:IDictionary<uint, List<WordModel>>
         foreach (var modelsWithSameKeyAndLength in matchingWordKeys)
         foreach (var q in modelsWithSameKeyAndLength)
             yield return q.Word;
-
     }
 }
