@@ -2,6 +2,13 @@
 
 public class WordModel : IComparable<WordModel>
 {
+    public WordModel(string word)
+    {
+        Word = word;
+        WordKey = word.WordKey();
+        FrequencyModel = word.FrequencyModel();
+    }
+
     public uint WordKey { get; set; }
 
     public string Word { get; set; }
@@ -10,6 +17,6 @@ public class WordModel : IComparable<WordModel>
 
     public int CompareTo(WordModel? other)
     {
-        return other.Word.GetHashCode() > this.Word.GetHashCode() ? 1 : -1;
+        return other == null || other.Word.GetHashCode() < Word.GetHashCode() ? -1 : 1;
     }
 }

@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordPuzzle.Lib.Tests", "Wor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordPuzzle.Lib", "WordPuzzle.Lib\WordPuzzle.Lib.csproj", "{D2287D19-F7C6-4C53-9084-B84FDF763968}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordPuzzle.Benchmarks", "WordPuzzle.Benchmarks\WordPuzzle.Benchmarks.csproj", "{47306166-DB38-4157-8F99-67D1715A2475}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,9 +14,15 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DDBB3F56-835A-41A2-B27A-05A0C19B2331}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DDBB3F56-835A-41A2-B27A-05A0C19B2331}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDBB3F56-835A-41A2-B27A-05A0C19B2331}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDBB3F56-835A-41A2-B27A-05A0C19B2331}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D2287D19-F7C6-4C53-9084-B84FDF763968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D2287D19-F7C6-4C53-9084-B84FDF763968}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2287D19-F7C6-4C53-9084-B84FDF763968}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2287D19-F7C6-4C53-9084-B84FDF763968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47306166-DB38-4157-8F99-67D1715A2475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47306166-DB38-4157-8F99-67D1715A2475}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47306166-DB38-4157-8F99-67D1715A2475}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47306166-DB38-4157-8F99-67D1715A2475}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

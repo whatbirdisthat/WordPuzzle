@@ -1,9 +1,41 @@
-﻿using System.Collections.Immutable;
+﻿using System.Text.RegularExpressions;
+using WordPuzzle.Lib.Query;
 
 namespace WordPuzzle.Lib;
 
-public class EnglishWords
+public class EnglishWords : IEnglishWords
 {
+    public EnglishWords()
+    {
+        _properSubset = new ProperSubset<Dictionary<uint, List<WordModel>>>(Dictionary);
+        loadDictionaryWords();
+    }
+
+    private Dictionary<uint, List<WordModel>> Dictionary { get; } = new();
+
+    public int Count => Dictionary.Count;
+
+    private ProperSubset<Dictionary<uint, List<WordModel>>> _properSubset;
+
+    public IEnumerable<string> ProperSubset(string word)
+    {
+        return _properSubset.Of(word);
+        // var theWordKey = word.WordKey();
+        // var theWordLength = word.Length;
+        //
+        // var matchingWordKeys = Dictionary
+        //     .Where(eachWordKey => eachWordKey.Key == theWordKey)
+        //     .Select(wordKey => wordKey.Value)
+        //     .Select(listOfWordModelLists =>
+        //         listOfWordModelLists.Where(wordModel => wordModel.Word.Length == theWordLength));
+        //
+        // foreach (var modelsWithSameKeyAndLength in matchingWordKeys)
+        // foreach (var q in modelsWithSameKeyAndLength)
+        //     yield return q.Word;
+    }
+
+    private static readonly Regex InvalidChars = new Regex("[^a-z]");
+
     private void loadDictionaryWords()
     {
         using var wordsFile = new FileInfo("./english-words/en").OpenRead();
@@ -14,90 +46,40 @@ public class EnglishWords
             var q = fileReader.ReadLine();
             if (q != null)
             {
-                temporaryStringsInMemory.Add(q.ToLowerInvariant());
+                temporaryStringsInMemory.Add(q);
             }
         }
 
-        // var parallelQuery = temporaryStringsInMemory.AsParallel().Where(s => s == "monomania").ToArray();
-        
-        
         var results = temporaryStringsInMemory
-            .AsParallel()
-            .Select(word =>
-            {
-                try
+                .AsParallel()
+                .Select(word =>
                 {
-                    var x = new WordModel();
-                    x.WordKey = word.WordKey();
-                    x.FrequencyModel = word.FrequencyModel();
-                    x.Word = word;
-                    return x;
-                }
-                catch (ArgumentOutOfRangeException invalidChar)
-                {
-                    return null;
-                }
-            })
-            .Where(i => i != null)
-            .ToImmutableArray();
-
+                    try
+                    {
+                        return new WordModel(word.ToLowerInvariant());
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        return null;
+                    }
+                    // return !InvalidChars.IsMatch(word) ? new WordModel(word.ToLowerInvariant()) : null;
+                })
+                .Where(i => i != null)
+            ;
         foreach (var wordModel in results)
         {
-            if (wordModel == null)
-            {
-                continue;
-            }
+            if (wordModel == null) continue;
 
-            // if (wordModel.Word == "monomania" || wordModel.WordKey == 28929)
-            // {
-            //     Console.WriteLine("monomania");
-            // }
-            if (_dictionary.ContainsKey(wordModel.WordKey))
+            if (Dictionary.ContainsKey(wordModel.WordKey))
             {
-                var thisList =_dictionary[wordModel.WordKey]; 
-                _dictionary[wordModel.WordKey] = thisList.Add(wordModel);
+                var thisList = Dictionary[wordModel.WordKey];
+                thisList.Add(wordModel);
             }
             else
             {
-                _dictionary.Add(wordModel.WordKey, ImmutableSortedSet.Create(
+                Dictionary.Add(wordModel.WordKey, new List<WordModel>(
                     new[] { wordModel })
                 );
-            }
-        }
-    }
-
-    public Dictionary<uint, ImmutableSortedSet<WordModel>> _dictionary { get; } = new();
-
-    public EnglishWords()
-    {
-        loadDictionaryWords();
-    }
-
-    public int Count
-    {
-        get => _dictionary.Count;
-    }
-
-    public IEnumerable<string> ProperSubset(string word)
-    {
-        var theWordKey = word.WordKey();
-        var theWordLength = word.Length;
-        
-        var matchingWordKeys = _dictionary
-            .Where(eachWordKey => eachWordKey.Key == theWordKey)
-            .ToImmutableList()
-            ;
-        
-        var matchingLengthWordModels = matchingWordKeys
-            .Select(wordKey => wordKey.Value)
-            .Select(listOfWordModelLists =>
-                listOfWordModelLists.Where(wordModel => wordModel.Word.Length == theWordLength));
-
-        foreach (var modelsWithSameKeyAndLength in matchingLengthWordModels.AsParallel())
-        {
-            foreach (var q in modelsWithSameKeyAndLength)
-            {
-                yield return q.Word;
             }
         }
     }

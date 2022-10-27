@@ -21,7 +21,7 @@ public static class WordAnalysis
         return results[0];
     }
 
-    public static IEnumerable<string> Anagrams(this string word, EnglishWords englishWords)
+    public static IEnumerable<string> Anagrams(this string word, IEnglishWords englishWords)
     {
         return englishWords.ProperSubset(word);
     }
