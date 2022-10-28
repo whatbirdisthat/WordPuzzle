@@ -1,7 +1,7 @@
 ﻿namespace WordPuzzle.Lib.Load;
 
-public interface IWordLoader<T>
+public interface IWordLoader
 {
-    T Words { get; set; }
-    T LoadWords();
+    IDictionary<uint, IEnumerable<string>> Words { get; set; }
+    IDictionary<uint, IEnumerable<string>> LoadWords();
 }

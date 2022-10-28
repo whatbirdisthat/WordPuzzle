@@ -1,20 +1,21 @@
-﻿using System.Collections.Immutable;
-using System.Text.RegularExpressions;
-
-namespace WordPuzzle.Lib.Load;
+﻿namespace WordPuzzle.Lib.Load;
 
 public class LinqMethod : WordLoader
 {
-    // private static readonly Regex InvalidChars = new("[^a-z]");
-
-    public override IDictionary<uint, List<WordModel>> LoadWords() =>
+    public override IDictionary<uint, IEnumerable<string>> LoadWords() =>
         File.ReadLines(WordsFilename)
             .AsParallel()
-            // .Where(w => !InvalidChars.IsMatch(w))
-            .Select(word => new WordModel(word))
-            .GroupBy(word => word.WordKey)
-            .ToImmutableDictionary(
-                g => g.Key,
-                g => g.ToList()
+            .Select(word =>
+                {
+                    var wordSplit = word.Split(" ");
+                    return (
+                        wordKey: uint.Parse(wordSplit[0]),
+                        wordList: wordSplit.Skip(1)
+                    );
+                }
+            )
+            .ToDictionary(
+                k => k.wordKey,
+                l => l.wordList
             );
 }

@@ -4,43 +4,28 @@ namespace WordPuzzle.Lib.Load;
 
 public class ImmutableMethod : WordLoader
 {
-    public override IDictionary<uint, List<WordModel>> LoadWords()
+    public override IDictionary<uint, IEnumerable<string>> LoadWords()
     {
+        var temporaryStringsInMemory =
+                File.ReadLines(WordsFilename)
+                    .AsParallel()
+                    .Select(l => l.Split(' '))
+                    .Select(d => (
+                            wordKey: uint.Parse(d[0]),
+                            wordList: new ArraySegment<string>(d, 1, d.Length - 1) as IEnumerable<string>
+                        )
+                    )
+                    .ToImmutableArray()
+            ;
 
-        using var wordsFile = new FileInfo(WordsFilename).OpenRead();
-        using var fileReader = new StreamReader(wordsFile);
-        var temporaryStringsInMemory = new List<string>();
-        while (!fileReader.EndOfStream)
-        {
-            var q = fileReader.ReadLine();
-            if (q != null)
-            {
-                temporaryStringsInMemory.Add(q);
-            }
-        }
+        var results =
+                temporaryStringsInMemory
+                    .ToDictionary(
+                        k => k.wordKey,
+                        l => l.wordList
+                    )
+            ;
 
-        // var parallelQuery = temporaryStringsInMemory.AsParallel().Where(s => s == "monomania").ToArray();
-
-        var results = temporaryStringsInMemory
-            .Select(word =>new WordModel(word))
-            .ToImmutableArray();
-
-        var loadedWords = new Dictionary<uint, List<WordModel>>();
-        
-        foreach (var wordModel in results)
-        {
-            if (loadedWords.ContainsKey(wordModel.WordKey))
-            {
-                var thisList = loadedWords[wordModel.WordKey];
-                thisList.Add(wordModel);
-            }
-            else
-            {
-                loadedWords.Add(wordModel.WordKey, new List<WordModel>(
-                    new[] { wordModel })
-                );
-            }
-        }
-        return loadedWords;
+        return results;
     }
 }

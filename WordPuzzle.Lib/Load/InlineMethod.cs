@@ -2,29 +2,20 @@
 
 public class InlineMethod : WordLoader
 {
-    public override IDictionary<uint, List<WordModel>> LoadWords()
-    {
-        var loadedWords = new Dictionary<uint, List<WordModel>>();
-        using var allLines = new StreamReader(WordsFilename);
-        while (!allLines.EndOfStream)
-        {
-            var validString = allLines.ReadLine();
-            var wordModel = new WordModel(validString!);
-            if (loadedWords.ContainsKey(wordModel.WordKey))
-            {
-                loadedWords[wordModel.WordKey].Add(wordModel);
-            }
-            else
-            {
-                var theNewWordList = new List<WordModel>();
-                theNewWordList.Add(wordModel);
-                loadedWords.Add(
-                    wordModel.WordKey,
-                    theNewWordList
-                );
-            }
-        }
+    // private const int NumLines = 106181; //106178
+    // private static readonly int ConcurrencyLevel = Environment.ProcessorCount * 2;
 
-        return loadedWords;
+    public override IDictionary<uint, IEnumerable<string>> LoadWords()
+    {
+        return
+            new Dictionary<uint, IEnumerable<string>>(
+                File.ReadLines(WordsFilename)
+                    .AsParallel()
+                    .Select(line => line.Split(' '))
+                    .Select(lineSplit => new KeyValuePair<uint, IEnumerable<string>>(
+                        uint.Parse(lineSplit[0]),
+                        lineSplit.Skip(1)
+                    ))
+            );
     }
 }

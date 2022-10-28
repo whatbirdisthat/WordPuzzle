@@ -1,16 +1,16 @@
 ﻿namespace WordPuzzle.Lib.Load;
 
-public abstract class WordLoader : IWordLoader<IDictionary<uint, List<WordModel>>>
+public abstract class WordLoader : IWordLoader
 {
     protected const string WordsFilename =
         "./english-words/wordrepository-en";
-    
+
     public WordLoader()
     {
         Words = LoadWords();
     }
 
-    public IDictionary<uint, List<WordModel>> Words { get; set; }
+    public IDictionary<uint, IEnumerable<string>> Words { get; set; }
 
-    public abstract IDictionary<uint, List<WordModel>> LoadWords();
+    public abstract IDictionary<uint, IEnumerable<string>> LoadWords();
 }

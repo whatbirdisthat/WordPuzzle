@@ -9,10 +9,10 @@ public class WordRepository
     public TransformDestination FromFile(string sourceFilename)
     {
         var transformedToLowercase =
-            File.ReadLines(sourceFilename)
-                .AsParallel()
-                .Select(l => l.ToLowerInvariant())
-                .Where(l => !AlphaCharsOnly.IsMatch(l))
+                File.ReadLines(sourceFilename)
+                    .AsParallel()
+                    .Select(l => l.ToLowerInvariant())
+                    .Where(l => !AlphaCharsOnly.IsMatch(l))
             ;
 
         var transformedLines = transformedToLowercase
@@ -20,7 +20,23 @@ public class WordRepository
                 .Where(l => l != null)
                 .Where(l => l != string.Empty)
             ;
-        var transformDestination = new TransformDestination(transformedLines);
+
+        var wordKeyDictionary =
+                transformedLines
+                    .GroupBy(l => l.WordKey())
+                    .ToDictionary(
+                        k => k.Key,
+                        l => l.ToList()
+                    )
+            ;
+
+        var outputlist = new List<string>();
+        foreach (var wordKeyList in wordKeyDictionary)
+        {
+            var outputLine = $"{wordKeyList.Key} {string.Join(" ", wordKeyList.Value)}";
+            outputlist.Add(outputLine);
+        }
+        var transformDestination = new TransformDestination(outputlist.AsParallel());
 
         return transformDestination;
     }

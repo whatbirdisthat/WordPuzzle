@@ -4,6 +4,12 @@ namespace WordPuzzle.Lib.Tests;
 
 public class TheWordRepositoryTransformerWill
 {
+    private const string sourceFileName =
+        "./english-words/en";
+
+    const string destinationFileName =
+        "/shared/source/repos/WordPuzzle/WordPuzzle.Lib/english-words/wordrepository-en";
+        
     [Fact]
     // [Fact(Skip = "Run this when you want to build './english-words/wordrepository-en'")]
     public void WillConstruct98721RowsFromDefaultEnFile()
@@ -11,9 +17,8 @@ public class TheWordRepositoryTransformerWill
         var transform = new WordRepository();
 
         transform
-            .FromFile("./english-words/en")
-            // .ToFile("./english-words/wordrepository-en")
-            .ToFile("/shared/source/repos/WordPuzzle/WordPuzzle.Lib/english-words/wordrepository-en")
+            .FromFile(sourceFileName)
+            .ToFile(destinationFileName)
             ;
         
     }

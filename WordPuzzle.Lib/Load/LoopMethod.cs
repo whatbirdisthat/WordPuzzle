@@ -2,9 +2,8 @@
 
 public class LoopMethod : WordLoader
 {
-    public override IDictionary<uint, List<WordModel>> LoadWords()
+    public override IDictionary<uint, IEnumerable<string>> LoadWords()
     {
-
         using var wordsFile = new FileInfo(WordsFilename).OpenRead();
         using var fileReader = new StreamReader(wordsFile);
         var temporaryStringsInMemory = new List<string>();
@@ -16,30 +15,21 @@ public class LoopMethod : WordLoader
                 temporaryStringsInMemory.Add(q);
             }
         }
-
-        var results = temporaryStringsInMemory
+        return temporaryStringsInMemory
                 .AsParallel()
-                .Select(word => new WordModel(word))
+                .Select(word => 
+                {
+                    var wordSplit = word.Split(" ");
+                    return (
+                        wordKey: uint.Parse(wordSplit[0]),
+                        wordList: new ArraySegment<string>(wordSplit, 1, wordSplit.Length-1) as IEnumerable<string>
+                    );
+                }
+                )
+                .ToDictionary(
+                    k => k.wordKey,
+                    l => l.wordList
+                )
             ;
-
-        Words = new Dictionary<uint, List<WordModel>>();
-        foreach (var wordModel in results)
-        {
-            // if (wordModel == null) continue;
-
-            if (Words.ContainsKey(wordModel.WordKey))
-            {
-                var thisList = Words[wordModel.WordKey];
-                thisList.Add(wordModel);
-            }
-            else
-            {
-                Words.Add(wordModel.WordKey, new List<WordModel>(
-                    new[] { wordModel })
-                );
-            }
-        }
-
-        return Words;
     }
 }

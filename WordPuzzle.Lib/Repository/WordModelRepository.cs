@@ -5,9 +5,8 @@ namespace WordPuzzle.Lib.Repository;
 
 public class WordModelRepository<TLoader, TQuery>
     : IWordModelRepository
-    where TLoader : IWordLoader<IDictionary<uint, List<WordModel>>>, new()
+    where TLoader : IWordLoader, new()
     where TQuery : ProperSubset, new()
-
 {
     private readonly TLoader _loader;
     private readonly TQuery _query;
