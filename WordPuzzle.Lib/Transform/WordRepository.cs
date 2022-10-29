@@ -20,9 +20,13 @@ public class WordRepository
                 .Where(l => l != null)
                 .Where(l => l != string.Empty)
             ;
-
-        var wordKeyDictionary =
+        var dedupWords =
+            new SortedSet<string>(
                 transformedLines
+            );
+        
+        var wordKeyDictionary =
+                dedupWords
                     .GroupBy(l => l.WordKey())
                     .ToDictionary(
                         k => k.Key,
@@ -36,7 +40,13 @@ public class WordRepository
             var outputLine = $"{wordKeyList.Key} {string.Join(" ", wordKeyList.Value)}";
             outputlist.Add(outputLine);
         }
-        var transformDestination = new TransformDestination(outputlist.AsParallel());
+
+        var transformDestination = new TransformDestination(
+            outputlist.AsParallel(),
+            wordKeyDictionary.ToDictionary(
+                e => e.Key,
+                e => e.Value as IEnumerable<string>)
+        );
 
         return transformDestination;
     }

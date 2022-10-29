@@ -2,8 +2,9 @@
 
 public abstract class WordLoader : IWordLoader
 {
-    protected const string WordsFilename =
-        "./english-words/wordrepository-en";
+    protected static readonly string WordsFilename =
+        Directory.GetParent(typeof(WordLoader).Assembly.Location)!.FullName +
+        "/english-words/wordrepository-en";
 
     public WordLoader()
     {

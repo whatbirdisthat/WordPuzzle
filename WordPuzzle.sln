@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordPuzzle.Lib", "WordPuzzl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordPuzzle.Benchmarks", "WordPuzzle.Benchmarks\WordPuzzle.Benchmarks.csproj", "{47306166-DB38-4157-8F99-67D1715A2475}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anagram", "Anagram\Anagram.csproj", "{3621DE77-23CC-4BBE-B824-7B35980CC7CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{47306166-DB38-4157-8F99-67D1715A2475}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47306166-DB38-4157-8F99-67D1715A2475}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47306166-DB38-4157-8F99-67D1715A2475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3621DE77-23CC-4BBE-B824-7B35980CC7CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3621DE77-23CC-4BBE-B824-7B35980CC7CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3621DE77-23CC-4BBE-B824-7B35980CC7CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3621DE77-23CC-4BBE-B824-7B35980CC7CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

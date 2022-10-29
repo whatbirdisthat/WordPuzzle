@@ -19,6 +19,10 @@
       <EmbeddedResource Include="english-words\wordrepository-en">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </EmbeddedResource>
+      <None Remove="english-words\wordrepository-en-dictionary" />
+      <EmbeddedResource Include="english-words\wordrepository-en-dictionary">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
     </ItemGroup>
 
 </Project>
