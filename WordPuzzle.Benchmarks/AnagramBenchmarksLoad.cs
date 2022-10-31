@@ -22,13 +22,13 @@ namespace WordPuzzle.Benchmarks;
 // [SimpleJob(launchCount: 1, warmupCount: 1, targetCount: 1, invocationCount: 1)]
 public class AnagramBenchmarksLoad
 {
-    [Benchmark(Baseline = true, Description = "LoopMethod: loading")]
-    public void LoadLoopMethod()
+    [Benchmark(Description = "JsonSerializerMethod: loading")]
+    public void LoadJsonSerializerMethod()
     {
-        var _theRepository = new WordModelRepository<LoopMethod, ProperSubset>();
+        var _theRepository = new WordModelRepository<JsonSerializerMethod, ProperSubset>();
     }
 
-    [Benchmark(Description = "InlineMethod: loading")]
+    [Benchmark(Baseline = true, Description = "InlineMethod: loading")]
     public void LoadInlineMethod()
     {
         var _theRepository = new WordModelRepository<InlineMethod, ProperSubset>();
@@ -40,9 +40,9 @@ public class AnagramBenchmarksLoad
         var _theRepository = new WordModelRepository<ImmutableMethod, ProperSubset>();
     }
 
-    [Benchmark(Description = "LinqMethod: loading")]
-    public void LoadLinqMethod()
+    [Benchmark(Description = "CollectionsMethod: loading")]
+    public void LoadCollectionsMethod()
     {
-        var _theRepository = new WordModelRepository<LinqMethod, ProperSubset>();
+        var _theRepository = new WordModelRepository<CollectionsMethod, ProperSubset>();
     }
 }

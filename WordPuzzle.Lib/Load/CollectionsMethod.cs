@@ -1,6 +1,6 @@
 ﻿namespace WordPuzzle.Lib.Load;
 
-public class LinqMethod : WordLoader
+public class CollectionsMethod : WordLoader
 {
     public override IDictionary<uint, IEnumerable<string>> LoadWords() =>
         File.ReadLines(WordsFilename)

@@ -2,7 +2,7 @@
 
 namespace WordPuzzle.Lib.Load;
 
-public class LoopMethod : WordLoader
+public class JsonSerializerMethod : WordLoader
 {
     public override IDictionary<uint, IEnumerable<string>> LoadWords()
     {

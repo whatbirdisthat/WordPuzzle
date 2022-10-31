@@ -19,9 +19,9 @@ public class TheDictionaryWill
     }
     
     [Fact]
-    public void LoadTheWordsLoopMethod()
+    public void LoadTheWordsJsonSerializerMethod()
     {
-        var englishWords = new WordModelRepository<LoopMethod, ProperSubset>();
+        var englishWords = new WordModelRepository<JsonSerializerMethod, ProperSubset>();
         englishWords.Should().NotBeNull();
         englishWords.Count.Should().NotBeInRange(
             int.MinValue,
@@ -39,9 +39,9 @@ public class TheDictionaryWill
         actualList.Should().BeEquivalentTo(expectedList);
     }
     [Fact]
-    public void LoadTheWordsLinqMethod()
+    public void LoadTheWordsCollectionsMethod()
     {
-        var englishWordsParallel = new WordModelRepository<LinqMethod, ProperSubset>();
+        var englishWordsParallel = new WordModelRepository<CollectionsMethod, ProperSubset>();
 
         englishWordsParallel.Should().NotBeNull();
         englishWordsParallel.Count.Should().NotBeInRange(

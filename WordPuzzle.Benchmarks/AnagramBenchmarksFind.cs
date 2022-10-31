@@ -13,8 +13,8 @@ namespace WordPuzzle.Benchmarks;
 public class AnagramBenchmarksFind
 {
     // private readonly EnglishWords _theEnglishWords = new();
-    private readonly WordModelRepository<LoopMethod, ProperSubset> _theEnglishWords = new();
-    private readonly WordModelRepository<LinqMethod, ProperSubset> _theEnglishWordsParallel = new();
+    private readonly WordModelRepository<JsonSerializerMethod, ProperSubset> _theEnglishWords = new();
+    private readonly WordModelRepository<CollectionsMethod, ProperSubset> _theEnglishWordsParallel = new();
     // private readonly LinqMethodWordRespository _theEnglishWordsParallel = new();
 
     [Benchmark(Baseline = true, Description = "Baseline: 'moonamain'")]
